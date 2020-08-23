@@ -6,9 +6,12 @@ import {Formula} from '@/components/Formula/Formula'
 import {Table} from '@/components/Table/Table'
 import {rootReducer} from '@/redux/rootReducer';
 import {createStore} from '@core/createStore';
+import {storage} from '@core/utils';
 
-const store = createStore(rootReducer, {
-  tableTitle: 'My Table excel'
+const store = createStore(rootReducer, storage('excel-state'))
+
+store.subscribe(state => {
+  storage('excel-state', state)
 })
 
 const excel = new Excel('#app', {

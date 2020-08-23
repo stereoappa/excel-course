@@ -13,7 +13,8 @@ export class Excel {
     const $root = $.create('div', 'excel')
 
     const componentOptions = {
-      emitter: this.emitter
+      emitter: this.emitter,
+      store: this.store
     }
 
     this.components = this.components.map(Component => {
