@@ -40,17 +40,21 @@ export function resizeHandler($root, event) {
 
         $root.findAll(`[data-col="${$parent.data.col}"]`)
             .forEach(el => el.style.width = value + 'px')
+
+        resolve({
+          type,
+          value,
+          id: type === 'col' ? $parent.data.col : null
+        })
       } else {
         $parent.css({height: value + 'px'})
+
+        resolve({
+          type,
+          value,
+          id: type === 'row' ? $parent.data.row : null
+        })
       }
-
-      // eslint-disable-next-line no-debugger
-      debugger
-      resolve({
-        value,
-        id: type === 'col' ? $parent.data.col : null
-      })
-
       $resizer.css({
         opacity: 0,
         bottom: 0,

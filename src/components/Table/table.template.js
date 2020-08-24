@@ -4,6 +4,7 @@ const CODES = {
 }
 
 const DEFAULT_WIDTH = 120
+const DEFAULT_HEIGHT = 24
 
 function toCell(state, row) {
   return function(_, col) {
@@ -34,15 +35,18 @@ function toColumn({col, index, width}) {
   `
 }
 
-function createRow(index, content) {
+function createRow(index, content, height) {
   const resize = index ? `<div class="row-resize" data-resize="row"></div>` : ''
   return `
-    <div class="row" data-type="resizable">
+    <div 
+    class="row" 
+    data-row="${index}" 
+    data-type="resizable"
+    style="height: ${height}">
       <div class="row-info">
         ${index ? index : ''}
         ${resize}
       </div>
-      
     <div class="row-data">${content}</div>
     </div>  
   `
@@ -53,7 +57,17 @@ function toChar(_, index) {
 }
 
 function getWidth(state, index) {
+  if (!state) {
+    return DEFAULT_WIDTH + 'px'
+  }
   return (state[index] || DEFAULT_WIDTH) + 'px'
+}
+
+function getHeight(state, index) {
+  if (!state) {
+    return DEFAULT_HEIGHT + 'px'
+  }
+  return (state[index] || DEFAULT_HEIGHT) + 'px'
 }
 
 function withWidthFrom(state) {
@@ -83,7 +97,9 @@ export function createTable(rowsCount = 15, state = {}) {
         .map(toCell(state, row))
         .join('')
 
-    rows.push(createRow(row + 1, cells))
+    // eslint-disable-next-line no-debugger
+    debugger
+    rows.push(createRow(row + 1, cells, getHeight(state.rowState, row + 1)))
   }
 
   return rows.join('')
