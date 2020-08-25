@@ -2,19 +2,14 @@
 import {TABLE_RESIZE} from './types';
 
 export function rootReducer(state, action) {
-  let prevColState; let prevRowState
+  let prevState
+  let field
   switch (action.type) {
     case TABLE_RESIZE:
-      if (action.data.type == 'col') {
-        prevColState = state.colState || {}
-        prevColState[action.data.id] = action.data.value
-        return {...state, colState: prevColState}
-      } else if (action.data.type == 'row') {
-        prevRowState = state.rowState || {}
-        prevRowState[action.data.id] = action.data.value
-        return {...state, rowState: prevRowState}
-      }
-      break
+      field = action.data.type == 'col' ? 'colState' : 'rowState'
+      prevState = state[field] || {}
+      prevState[action.data.id] = action.data.value
+      return {...state, [field]: prevState}
     default: return state
   }
 }
