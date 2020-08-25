@@ -44,11 +44,10 @@ export function resizeHandler($root, event) {
         $parent.css({height: value + 'px'})
       }
 
-      // eslint-disable-next-line no-debugger
-      debugger
       resolve({
+        type,
         value,
-        id: type === 'col' ? $parent.data.col : null
+        id: $parent.data[type]
       })
 
       $resizer.css({
